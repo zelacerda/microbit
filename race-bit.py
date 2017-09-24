@@ -1,16 +1,20 @@
-# Race:bit - A racing game for Micro:bit 
+# Race:bit - A racing game for Micro:bit
 # version 1.0 - by zelacerda
 
 from microbit import *
 import random
 
-lines = ['00555','50055','55005','55500'] # Possible track lines (0 = track)
+lines = ['00533','50053','35005','33500'] # Possible track lines (0 = track)
 state = 0 # Game start
+flag = [Image('95900:99559:95995:90059:90000'),
+        Image('95959:99595:95959:90000:90000'),
+        Image('95009:99955:95599:90950:90000')]
 
 def game_start():
     global track, p, car, difficult, state
     track = '00000:00000:00000:00000:00000' # Initial track state
     display.show(['3', '2', '1'],delay=800) # Countdown
+    display.show(flag*4, delay=120)
     difficult = 0 # Game speed
     car = 2 # X position of car
     p = random.randint(0,3) # Choose an initial track line
@@ -32,10 +36,11 @@ def game_run():
 
 def game_over():
     global state, difficult
+    display.show(flag*4, delay=120)
     display.scroll('SCORE:%s ' % difficult, delay=80, wait=False, loop=True)
     sleep(1000)
     while not (button_a.is_pressed() or button_b.is_pressed()):
-        pass # Button A or B restart the game  
+        pass # Button A or B restart the game
     state = 0
 
 while True:
